@@ -1,0 +1,140 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block title %} Team Members {% endblock %}
+
+{% block content %}
+<!-- ============================================================== -->
+<!-- left sidebar -->
+<!-- ============================================================== -->
+
+{% include "sidebar.html" %}
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <a href="/" class="breadcrumb-link">Dashboard</a>
+                                    <span> >> Team Members</span>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <!-- recent Requests  -->
+                <!-- ============================================================== -->
+                <div class="col-12 container bg-white">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <h3 class="card-header text-center mb-1 mt-3">Team Members </h3>
+                     <button class="btn btn-info mb-4" data-bs-toggle="modal"
+                             data-bs-target="#add_member">Add New Members
+                     </button>
+                    <div class="table-responsive">
+                        <table id="deposit" class="table table-middle" style="width: 100%;">
+                            <thead>
+                                <tr align="center">
+                                    <th>#</th>
+                                    <th>username</th>
+                                    <th>E-mail</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-group-divider">
+                                {% for i in team_members %}
+                                <tr align="center">
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.username}}</td>
+                                    <td>{{i.email}}</td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+     <!-- Ass New Member Model -->
+    <div class="modal fade" id="add_member" tabindex="-1" aria-labelledby="add_member" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" >
+                            Add New Team Member
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/all_member/" method="post">
+                        {% csrf_token %}
+                        <div class="col-12">
+                            <label  class="form-label">Select Member</label>
+                            <select class="form-control" name="member" required>
+                                <option value="">Select Team Members</option>
+                                {% for member in remaining_users %}
+                                   <option value="{{member.id}}">{{member}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <table class="modal-body col-12 mb-3 mt-2">
+                            <tr>
+                                <td align="center">
+                                    <input type="submit" class="btn btn-outline-danger text-center"
+                                    value="Add New Member">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js"></script>
+
+<script>
+    const targetDiv = document.getElementById("team_div");
+    const target_nav = document.getElementById("team_nav");
+    target_nav.classList.add("active");
+    targetDiv.classList.add("active");
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.chosen-select').chosen();
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,420 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block title %} Dashboard{% endblock %}
+
+{% block content %}
+<!-- ============================================================== -->
+<!-- left sidebar -->
+<!-- ============================================================== -->
+
+{% include "sidebar.html" %}
+
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Dashboard</a></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ecommerce-widget">
+                <!-- ============================================================== -->
+                <!-- Cards  -->
+                <!-- ============================================================== -->
+                <div class="row mt-2">
+                    <h4>My Task</h4>
+                   <!-- Users count -->
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Total Tasks</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-solid fa-list-check" style="color:rgb(135, 206, 235);float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{total_mytask}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Pending Task</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                       <i class="fa-solid fa-clock" style="color:yellow;float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{pending_mytask}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">In-Process</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                       <i class="fa-regular fa-hourglass-half" style="color:rgb(51, 202, 40);float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{process_mytask}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Review</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-solid fa-microscope" style="color:rgb(155, 106, 215);float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{review_mytask}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Complete Task</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-solid fa-circle-check" style="color:green;float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{complete_mytask}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <h4>Assign Task</h4>
+                   <!-- Assign task count -->
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Total Tasks</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-solid fa-list-check" style="color:rgb(135, 206, 235);float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{total_assign_tasks}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Pending Task</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-solid fa-clock" style="color:yellow;float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{pending_assign_task}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">In-Process</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-regular fa-hourglass-half" style="color:rgb(51, 202, 40);float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{process_assign_task}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Review</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-solid fa-microscope" style="color:rgb(155, 106, 215);float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{review_assign_task}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center pl-4 pr-4">Complete Task</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1">
+                                        <i class="fa-solid fa-circle-check" style="color:green;float: left;"></i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;">{{complete_assign_task}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <h4>Team Member</h4>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h5 class="text-muted text-center">Total Team Members</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1 ml-5">
+                                        <i class="fa-solid fa-users"
+                                            style="color:rgb(104, 20, 128);float: left;">
+                                        </i>
+                                    </h1>
+                                    <h2 class="text-right" style="margin-top: -2px;margin-right: 20%;">
+                                        {{total_members}}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+            </div>
+            {% else %}
+            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+
+            {% for i in assign_tasks %}
+
+              <!-- task Review Confirm Model -->
+                <div class="modal fade" id="startwork{{i.id}}" tabindex="-1" aria-labelledby="startwork"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" >
+                                    Confirmation
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="col-12">
+                                <h6 class="text-center">
+                                    Are you sure, You want to Start this task .
+                                </h6>
+                            </div>
+                            <form action="/all_task/" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="action" hidden value="status">
+                                <input type="text" name="decision" hidden value="process">
+                                <input type="number" name="task_id" value="{{i.id}}" hidden>
+                                <table class="modal-body col-12 mb-3">
+                                    <tr>
+                                        <td align="center">
+                                            <input type="submit" class="btn btn-outline-success text-center"
+                                            value="Start Task">
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </form>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              <!-- task Review Confirm Model -->
+                <div class="modal fade" id="review_task{{i.id}}" tabindex="-1" aria-labelledby="Complete_task"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" >
+                                    Confirmation
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="col-12">
+                                <h6 class="text-center">
+                                    Are you sure, You want to change this task status to Review
+                                </h6>
+                            </div>
+                            <form action="/all_task/" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="action" hidden value="status">
+                                <input type="text" name="decision" hidden value="review">
+                                <input type="number" name="task_id" value="{{i.id}}" hidden>
+                                <table class="modal-body col-12 mb-3">
+                                    <tr>
+                                        <td align="center">
+                                            <input type="submit" class="btn btn-outline-success text-center"
+                                            value="Review Task">
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </form>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- view task details Model -->
+                <div class="modal fade" id="mytaskDetail{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">
+                                    Task Details Detail
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body ml-1">
+                                {{i.description | linebreaks }}
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+       <!-- ///////////////////////////////////// Assign Task ///////////////////////////////////////////-->
+
+
+
+            <div class="row mt-3">
+                <!-- recent Requests  -->
+                <!-- ============================================================== -->
+                <div class="col-12 container bg-white">
+                    <h3 class="card-header text-center mb-1 mt-3">Assigned Tasks </h3>
+                    <div class="table-responsive">
+                        <table id="withdraw" class="table table-middle" style="width: 100%;">
+                            <thead>
+                                <tr align="center">
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Assigner</th>
+                                    <th>Deadline</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                    <th>Task Details</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-group-divider">
+                                {% for i in assign_tasks %}
+                                <tr align="center">
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.title}}</td>
+                                    <td>{{i.creator}}</td>
+                                    <td>{{i.deadline}}</td>
+
+                                    <td>
+                                        {% if i.status == 'pending' %}
+                                        <b class="badge text-bg-warning" style="font-size:14px">{{i.status}}..</b>
+                                        {% elif i.status == 'process'%}
+                                        <span class="badge text-bg-success" style="font-size:14px">In-Process</span>
+                                        {% elif i.status == 'change_request'%}
+                                        <span class="badge text-bg-danger" style="font-size:14px">Change Requested</span>
+                                        {% elif i.status == 'review'%}
+                                        <span class="badge text-bg-dark" style="font-size:14px">Under Review</span>
+                                        {% else %}
+                                        <span class="badge text-bg-success" style="font-size:14px">Completed</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if i.status == 'pending' %}
+                                            <button class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#startwork{{i.id}}">Start Work
+                                            </button>
+                                        {% elif i.status == 'process' %}
+                                            <button class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#review_task{{i.id}}">Review Task
+                                            </button>
+                                        {% elif i.status == 'change_request' %}
+                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#show_change_request{{i.id}}">View Change Request
+                                            </button>
+                                            <button class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#review_task{{i.id}}">Review Task
+                                            </button>
+
+                                        {% elif i.status == 'review' %}
+                                            <h2 class="badge text-bg-secondary" style="font-size: 16px;margin-bottom: -1px;">
+                                                Under Review ..
+                                            </h2>
+
+                                        {% else %}
+                                            <h2 class="badge text-bg-success" style="font-size: 16px;margin-bottom: -1px;">
+                                                Completed
+                                            </h2>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <i class="fa-solid fa-eye" data-bs-toggle="modal"
+                                            data-bs-target="#mytaskDetail{{i.id}}"
+                                            style="color:rgb(110, 203, 23); cursor: pointer;"></i>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const targetDiv = document.getElementById("dashboard_div");
+    const targetNav = document.getElementById("dashboard_nav");
+    targetNav.classList.add("active");
+    targetDiv.classList.add("active");
+</script>
+{% endblock %}

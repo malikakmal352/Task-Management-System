@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+
+    body {
+        background-image: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.3)),url({% static "/images/login_bg.jpg" %});
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100% !important;
+        z-index: 3;
+    }
+
+    body::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Adjust the opacity as needed */
+        z-index: 1;
+        /* Ensure it's above the background image */
+    }
+
+    input {
+        border: none;
+        background-color: transparent;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    #submitButton{
+       border-radius: 20px;
+    }
+
+    a{
+        text-decoration: none;
+    }
+
+
+
+        .login_container{
+          background: rgba(255, 255, 255, 0.1);
+          box-shadow: 10px;
+          justify-content: center;
+          align-items: center;
+          border-top: 1px solid rgba(255, 255, 255, 0.5);
+          border-left: 2px solid rgba(255, 255, 255, 0.5);
+          border-right: 1px solid rgba(255, 255, 255, 0.5);
+          backdrop-filter: blur(5px);
+
+        }
+
+        .form {
+          position: relative;
+          width: 100%;
+          height: 3rem;
+          margin-bottom: 15px;
+        }
+        .form__input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          font-family: inherit;
+          font-size: inherit;
+          color: #adffff;
+          background: transparent;
+          outline: none;
+          border: none;
+          border-bottom: solid white 2px;
+          width: 100%;
+          margin-bottom: 12px;
+          padding: 1.25rem;
+          /* Change border when input focus*/
+        }
+        .form__input:hover {
+          border-color: #adffff;
+          color:white;
+        }
+
+        .form__label {
+          position: absolute;
+          left: 12px;
+          top: 0.7rem;
+          padding: 0 0.5rem;
+          color: #adffff;
+          font:bold;
+          outline:none;
+          cursor: text;
+          transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+          background-color: transparent;
+        }
+
+        .form__input:focus ~ .form__label,
+        .form__input:not(:placeholder-shown).form__input:not(:focus) ~ .form__label {
+          top: -1.3rem;
+          font-size: 0.8rem;
+          left: 0.8rem;
+        }
+
+</style>
+
+<body>
+    <div class="container mt-4 login_container col-11 col-md-8 col-lg-5 px-3" style="z-index:99">
+        <form method="POST" action="/auth/signup/" id="SignupForm" class="w-100 px-4 py-3" autocomplete="off">
+
+            {% csrf_token %}
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          {{ message }}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% else %}
+                       <div class="alert alert-success alert-dismissible fade show" role="alert">
+                          {{ message }}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                       </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            <div class="text-center mb-2"
+                style="color: white; font-size: 26.11px; font-family: DM Serif Text; font-weight: 400;">
+                Registration
+            </div>
+            <div class="form">
+                <input class="form__input" id="username" name="username" placeholder="Username" required type="text">
+                <label class="form__label" for="username"><b>Username</b></label>
+            </div>
+            <div class="form mt-4">
+                <input class="form__input" id="email" name="email" placeholder="E-mail" required type="email">
+                <label class="form__label" for="email"><b>E-mail</b></label>
+            </div>
+
+            <div class="form mt-4">
+                <input class="form__input" minlength="8"
+                       id="password" name="password" placeholder="Password" required type="password">
+                <label class="form__label" for="password"><b>Password</b></label>
+            </div>
+
+            <div class="row justify-content-center">
+                <button id="submitButton" class="py-2 px-3 col-12 col-md-8 col-lg-4 btn btn-outline-info" type="submit">
+                    Register
+                </button>
+            </div>
+
+            <div class="text-center my-1 pb-1">
+                <a href="/auth/">
+                    <span class="text-white">Already have account?
+                        <span class="text-info"><b>Login</b></span>
+                    </span>
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+
+{% endblock %}

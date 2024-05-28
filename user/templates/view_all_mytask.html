@@ -1,0 +1,361 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block title %} all deposit Requests{% endblock %}
+
+{% block content %}
+<!-- ============================================================== -->
+<!-- left sidebar -->
+<!-- ============================================================== -->
+
+{% include "sidebar.html" %}
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <a href="/" class="breadcrumb-link">Dashboard</a>
+                                    <span> >> My All Tasks</span>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <!-- recent Requests  -->
+                <!-- ============================================================== -->
+                <div class="col-12 container bg-white">
+                    <h3 class="card-header text-center mb-1 mt-3">My Task </h3>
+                    <h6 class="card-header text-center mb-1 mt-3">(except complete) </h6>
+                    <div class="table-responsive">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <table id="deposit" class="table table-middle" style="width: 100%;">
+                            <thead>
+                                <tr align="center">
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Assign to</th>
+                                    <th>Deadline</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                    <th>Task Details</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-group-divider">
+                                {% for i in mytask %}
+                                <tr align="center">
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.title}}</td>
+                                    <td>{{i.assign_to}}</td>
+                                    <td>{{i.deadline}}</td>
+
+                                    <td>
+                                        {% if i.status == 'pending' %}
+                                        <b class="badge text-bg-warning" style="font-size:14px">{{i.status}}..</b>
+                                        {% elif i.status == 'process'%}
+                                        <span class="badge text-bg-success" style="font-size:14px">In-Process</span>
+                                        {% elif i.status == 'change_request'%}
+                                        <span class="badge text-bg-danger" style="font-size:14px">Change Requested</span>
+                                        {% elif i.status == 'review'%}
+                                        <span class="badge text-bg-dark" style="font-size:14px">Under Review</span>
+                                        {% else %}
+                                        <span class="badge text-bg-success" style="font-size:14px">Completed</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if i.status == 'pending' %}
+                                            <button class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#updatetask{{i.id}}">Update
+                                            </button>
+                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#delete_task{{i.id}}">Delete
+                                            </button>
+                                        {% elif i.status == 'process' %}
+                                            <button class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#updatetask{{i.id}}">Update
+                                            </button>
+                                        {% elif i.status == 'change_request' %}
+                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#show_change_request{{i.id}}">View Change Request
+                                            </button>
+                                            <button class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#updatetask{{i.id}}">Update
+                                            </button>
+                                        {% elif i.status == 'review' %}
+                                            <button class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#Complete_task{{i.id}}">Completed
+                                            </button>
+                                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#change_request{{i.id}}">Change Requested
+                                            </button>
+                                        {% else %}
+                                            <h2 class="badge text-bg-success" style="font-size: 16px;margin-bottom: -1px;">
+                                                Completed
+                                            </h2>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <i class="fa-solid fa-eye" data-bs-toggle="modal"
+                                            data-bs-target="#mytaskDetail{{i.id}}"
+                                            style="color:rgb(110, 203, 23); cursor: pointer;"></i>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+             {% for i in mytask %}
+
+                <!-- Update Confirm Model -->
+                <div class="modal fade" id="updatetask{{i.id}}" tabindex="-1" aria-labelledby="updatetask"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" >
+                                    Confirmation
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="col-12">
+                                <h6 class="text-center">
+                                    Are you sure, You want to Update this task
+                                </h6>
+                            </div>
+                            <form action="/all_mytask/" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="action" hidden value="update_btn">
+                                <input type="number" name="task_id" value="{{i.id}}" hidden>
+                                <table class="modal-body col-12 mb-3">
+                                    <tr>
+                                        <td align="center">
+                                            <input type="submit" class="btn btn-outline-warning text-center"
+                                            value="Update Task">
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </form>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- task delete Confirm Model -->
+                <div class="modal fade" id="delete_task{{i.id}}" tabindex="-1" aria-labelledby="delete_task"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" >
+                                    Confirmation
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="col-12">
+                                <h6 class="text-center">
+                                    Are you sure, You want to delete this task
+                                </h6>
+                            </div>
+                            <form action="/all_mytask/" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="action" hidden value="delete">
+                                <input type="number" name="task_id" value="{{i.id}}" hidden>
+                                <table class="modal-body col-12 mb-3">
+                                    <tr>
+                                        <td align="center">
+                                            <input type="submit" class="btn btn-outline-danger text-center"
+                                            value="Delete Task">
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </form>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- task change_request Confirm Model -->
+                <div class="modal fade" id="change_request{{i.id}}" tabindex="-1" aria-labelledby="change_request"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" >
+                                    Confirmation
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="col-12">
+                                <h6 class="text-center">
+                                    Are you sure, You want a change request this task
+                                </h6>
+                            </div>
+                            <form action="/all_mytask/" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="action" hidden value="status">
+                                <input type="text" name="decision" hidden value="change_request">
+                                <input type="number" name="task_id" value="{{i.id}}" hidden>
+                                <div class="col-12">
+                                    <label  class="form-label">Change Details</label>
+
+                                    <textarea class="form-control w-100" rows="6" name="change_details" required></textarea>
+                                </div>
+                                <table class="modal-body col-12 mb-3 mt-2">
+                                    <tr>
+                                        <td align="center">
+                                            <input type="submit" class="btn btn-outline-danger text-center"
+                                            value="Change Request">
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </form>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- task Complete Confirm Model -->
+                <div class="modal fade" id="Complete_task{{i.id}}" tabindex="-1" aria-labelledby="Complete_task"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" >
+                                    Confirmation
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="col-12">
+                                <h6 class="text-center">
+                                    Are you sure, You want to change this task status to complete
+                                </h6>
+                            </div>
+                            <form action="/all_mytask/" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="action" hidden value="status">
+                                <input type="text" name="decision" hidden value="complete">
+                                <input type="number" name="task_id" value="{{i.id}}" hidden>
+                                <table class="modal-body col-12 mb-3">
+                                    <tr>
+                                        <td align="center">
+                                            <input type="submit" class="btn btn-outline-success text-center"
+                                            value="Complete Task">
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </form>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- view task details Model -->
+                <div class="modal fade" id="mytaskDetail{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">
+                                    Task Details Detail
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body ml-1">
+                                {{i.description | linebreaks }}
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- View task change_request Details Model -->
+                <div class="modal fade" id="show_change_request{{i.id}}" tabindex="-1" aria-labelledby="show_change_request"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" >
+                                Confirmation
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                         <div class="col-12">
+                            <label  class="form-label">Change Details</label>
+
+                            <textarea class="form-control w-100" rows="6" name="change_details" required>{{i.change_details}}</textarea>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const targetDiv = document.getElementById("mytask_div");
+    const targetSubDiv = document.getElementById("mytask_div_1");
+    const targetnav = document.getElementById("mytask_nav");
+    const targetSubnav = document.getElementById("mytask_nav_1");
+    targetSubnav.classList.add("active");
+    targetnav.classList.add("active");
+    targetSubDiv.classList.add("active");
+    targetDiv.classList.add("active");
+</script>
+{% endblock %}

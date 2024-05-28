@@ -1,0 +1,118 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block title %} Complete Tasks {% endblock %}
+
+{% block content %}
+<!-- ============================================================== -->
+<!-- left sidebar -->
+<!-- ============================================================== -->
+
+{% include "sidebar.html" %}
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <a href="/" class="breadcrumb-link">Dashboard</a>
+                                    <span> >> My Complete Tasks</span>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <!-- recent Requests  -->
+                <!-- ============================================================== -->
+                <div class="col-12 container bg-white">
+                    <h3 class="card-header text-center mb-1 mt-3">My Complete Task </h3>
+                    <div class="table-responsive">
+                        <table id="deposit" class="table table-middle" style="width: 100%;">
+                            <thead>
+                                <tr align="center">
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Assign to</th>
+                                    <th>Deadline</th>
+                                    <th>Status</th>
+                                    <th>Task Details</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-group-divider">
+                                {% for i in mytask %}
+                                <tr align="center">
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.title}}</td>
+                                    <td>{{i.assign_to}}</td>
+                                    <td>{{i.deadline}}</td>
+
+                                    <td>
+                                        <h2 class="badge text-bg-success" style="font-size: 16px;margin-bottom: -1px;">
+                                            Completed
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        <i class="fa-solid fa-eye" data-bs-toggle="modal"
+                                            data-bs-target="#mytaskDetail{{i.id}}"
+                                            style="color:rgb(110, 203, 23); cursor: pointer;"></i>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+             {% for i in mytask %}
+
+                <!-- view task details Model -->
+                <div class="modal fade" id="mytaskDetail{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">
+                                    Task Details Detail
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body ml-1">
+                                {{i.description | linebreaks }}
+                            </div>
+    
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const targetDiv = document.getElementById("mytask_div");
+    const targetSubDiv = document.getElementById("mytask_div_2");
+    const targetnav = document.getElementById("mytask_nav");
+    const targetSubnav = document.getElementById("mytask_nav_2");
+    targetSubnav.classList.add("active");
+    targetnav.classList.add("active");
+    targetSubDiv.classList.add("active");
+    targetDiv.classList.add("active");
+</script>
+{% endblock %}

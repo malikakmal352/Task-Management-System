@@ -1,0 +1,124 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block title %} update Task{% endblock %}
+
+{% block content %}
+{% include "sidebar.html" %}
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="/" class="breadcrumb-link">Dashboard</a>
+                                        <span> >> Update Task</span>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ecommerce-widget">
+                <div class="row mt-2">
+                    <div class="col-12 mb-3">
+                        <div class="card border-3 border-top border-top-primary">
+                            <div class="card-body row mx-auto">
+                                <h3 class="text-center">Update Task</h3>
+                                {% if messages %}
+                                {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                                {% else %}
+                                <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                <div class="metric-value d-inline-block">
+                                    <form action="/all_mytask/" method="POST" class="row g-3"
+                                        enctype="multipart/form-data" id="planForm">
+                                        {% csrf_token %}
+                                        <div class="col-md-6">
+                                            <label  class="form-label">Task Name</label>
+                                            <input type="text" class="form-control" name="task_title" value="{{update_task.title}}" required>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label">Task Deadline</label>
+                                            <input aria-required="true" id="DateTime" min="{% now 'Y-m-d\TH:i' %}" class="form-control"
+                                                   name="deadline" value="{{ update_task.deadline|date:'Y-m-d\TH:i' }}" type="datetime-local"/>
+                                        </div>
+
+
+                                           <div class="col-md-6">
+                                            <label>Assign User:</label>
+                                            <select class="form-control" name="assign_to" required
+                                                    {% if update_task.status != "pending"%} disabled {% endif %}>
+                                                <option value="">Select Assign user</option>
+
+                                                {% for member in assign_user %}
+                                                {% if update_task.assign_to.id == member.id %}
+                                                  <option value="{{member.id}}" selected>{{member}}</option>
+                                                {% else %}
+                                                   <option value="{{member.id}}">{{member}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <label class="form-label">Task Details</label>
+                                            <textarea class="form-control w-100" rows="6" name="task_details"
+                                                required>{{update_task.description}}</textarea>
+                                            <span class="focus-input100"></span>
+                                        </div>
+                                        <input value="update_task" name="action" hidden />
+                                        <input value="{{update_task.id}}" name="task_id" hidden />
+
+                                        <div class="col-12 mx-auto">
+                                            <div class="col-lg-4 col-md-3 col-sm-2" style="float: left;"></div>
+                                            <button type="submit" class="btn btn-danger col-lg-4 col-md-6 col-sm-8">
+                                                Update Task
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const targetDiv = document.getElementById("task_div");
+    const targetSubDiv = document.getElementById("task_div_1");
+    const targetNiv = document.getElementById("task_nav");
+    const targetSubNiv = document.getElementById("task_nav_1");
+    targetSubNiv.classList.add("active");
+    targetNiv.classList.add("active");
+    targetSubDiv.classList.add("active");
+    targetDiv.classList.add("active");
+
+</script>
+{% endblock %}
