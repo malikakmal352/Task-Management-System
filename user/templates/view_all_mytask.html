@@ -1,6 +1,6 @@
 {% extends 'admin_base.html' %}
 {% load static %}
-{% block title %} all deposit Requests{% endblock %}
+{% block title %} View all My Task{% endblock %}
 
 {% block content %}
 <!-- ============================================================== -->
@@ -34,6 +34,12 @@
                 <div class="col-12 container bg-white">
                     <h3 class="card-header text-center mb-1 mt-3">My Task </h3>
                     <h6 class="card-header text-center mb-1 mt-3">(except complete) </h6>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-danger my-2" data-bs-toggle="modal" data-bs-target="#filters">
+                            Filters
+                        </button>
+                    </div>
+
                     <div class="table-responsive">
                         {% if messages %}
                             {% for message in messages %}
@@ -52,7 +58,7 @@
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
-                        <table id="deposit" class="table table-middle" style="width: 100%;">
+                        <table id="mytask" class="table table-middle" style="width: 100%;">
                             <thead>
                                 <tr align="center">
                                     <th>#</th>
@@ -211,7 +217,7 @@
                     </div>
                 </div>
 
-                <!-- task change_request Confirm Model -->
+                   <!-- task change_request Confirm Model -->
                 <div class="modal fade" id="change_request{{i.id}}" tabindex="-1" aria-labelledby="change_request"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -256,9 +262,8 @@
                 </div>
 
 
-                <!-- task Complete Confirm Model -->
-                <div class="modal fade" id="Complete_task{{i.id}}" tabindex="-1" aria-labelledby="Complete_task"
-                    aria-hidden="true">
+                  <!-- task Complete Confirm Model -->
+                <div class="modal fade" id="Complete_task{{i.id}}" tabindex="-1" aria-labelledby="Complete_task" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -295,9 +300,8 @@
                     </div>
                 </div>
 
-                <!-- view task details Model -->
-                <div class="modal fade" id="mytaskDetail{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                  <!-- view task details Model -->
+                <div class="modal fade" id="mytaskDetail{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -318,32 +322,69 @@
                 </div>
 
 
-                <!-- View task change_request Details Model -->
-                <div class="modal fade" id="show_change_request{{i.id}}" tabindex="-1" aria-labelledby="show_change_request"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" >
-                                Confirmation
-                            </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                         <div class="col-12">
-                            <label  class="form-label">Change Details</label>
+                   <!-- View task change_request Details Model -->
+                <div class="modal fade" id="show_change_request{{i.id}}" tabindex="-1" aria-labelledby="show_change_request" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" >
+                                    Confirmation
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="col-12">
+                                <label  class="form-label">Change Details</label>
 
-                            <textarea class="form-control w-100" rows="6" name="change_details" required>{{i.change_details}}</textarea>
-                        </div>
+                                <textarea class="form-control w-100" rows="6" name="change_details" required>{{i.change_details}}</textarea>
+                            </div>
 
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
             {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Task Filters Model -->
+<div class="modal fade" id="filters" tabindex="-1" aria-labelledby="filters" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" >
+                    Task Filters
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/all_mytask/" method="GET">
+                <div class="col-12">
+                    <label  class="form-label">Select Status</label>
+                    <select class="form-control" name="filter_status" required>
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="process">In-Pocess</option>
+                        <option value="review">Under Review</option>
+                        <option value="change_request">Change Request</option>
+                    </select>
+                </div>
+                <table class="modal-body col-12 mb-3 mt-2">
+                    <tr>
+                        <td align="center">
+                            <input type="submit" class="btn btn-outline-danger text-center"
+                            value="Apply Filters">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

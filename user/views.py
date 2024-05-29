@@ -80,7 +80,11 @@ class MyTask(LoginRequiredMixin, View):
 
     @staticmethod
     def get(request):
+        filter_status = request.GET.get("filter_status", None)
         mytask = Task.objects.filter(creator=request.user).exclude(status="complete")
+        if filter_status:
+            if filter_status != 'all':
+                mytask = mytask.filter(status=str(filter_status))
         context = {"mytask": mytask}
         return render(request, "view_all_mytask.html", context)
 
@@ -133,7 +137,11 @@ class AssignTask(LoginRequiredMixin, View):
 
     @staticmethod
     def get(request):
+        filter_status = request.GET.get("filter_status", None)
         assign_tasks = Task.objects.filter(assign_to=request.user).exclude(status="complete")
+        if filter_status:
+            if filter_status != 'all':
+                assign_tasks = assign_tasks.filter(status=str(filter_status))
         context = {"assign_tasks": assign_tasks}
         return render(request, "view_all_assign_task.html", context)
 

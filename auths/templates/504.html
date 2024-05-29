@@ -10,8 +10,6 @@
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:700,900" rel="stylesheet">
-	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="{% static 'css/404.css' %}" />
 	<style>
 		* {
 			-webkit-box-sizing: border-box;
@@ -129,13 +127,9 @@
 				<h2>Gateway Timeout</h2>
 			</div>
 			{% if request.user.is_authenticated %}
-			{% if request.user.is_superuser %}
-			<a href="/admin_dashboard/">Homepage</a>
+				<a href="/">Homepage</a>
 			{% else %}
-			<a href="/">Homepage</a>
-			{% endif %}
-			{% else %}
-			<a href="/">Homepage</a>
+				<a href="/auth/">Login</a>
 			{% endif %}
 		</div>
 	</div>
